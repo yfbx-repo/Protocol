@@ -1,4 +1,4 @@
-package com.yfbx.protocol.hj212.code;
+package com.yfbx.protocol.protocol.hj212.code;
 
 /**
  * Author:Edward

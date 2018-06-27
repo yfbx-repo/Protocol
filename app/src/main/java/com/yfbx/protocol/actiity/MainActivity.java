@@ -1,22 +1,24 @@
 package com.yfbx.protocol.actiity;
 
 import android.os.Bundle;
+import android.serialport.SerialPort;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yfbx.protocol.R;
 import com.yfbx.protocol.bean.DeviceInstallInfo;
-import com.yfbx.protocol.hj212.HJ212;
-import com.yfbx.protocol.hj212.HJ212CP;
-import com.yfbx.protocol.hj212.code.CN;
-import com.yfbx.protocol.hj212.code.ST;
-import com.yfbx.protocol.serial.SerialManager;
-import com.yfbx.protocol.utils.HexUtils;
+import com.yfbx.protocol.protocol.Protocol;
+import com.yfbx.protocol.protocol.hj212.HJ212CP;
+import com.yfbx.protocol.protocol.hj212.HJ212Data;
+import com.yfbx.protocol.protocol.modbus882.Command;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -62,19 +64,18 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void test(String msg) throws IOException, InterruptedException {
-        msg = HexUtils.stringToHex(msg);
-        SerialManager serialPort = new SerialManager();
-        serialPort.open("/dev/ttyS4", 9600);
-        int i = serialPort.write(msg);
-        Log.i("写入长度", "test: " + i);
+        SerialPort serialPort = new SerialPort(new File("/dev/ttyS4"), 9600, 0);
+        OutputStream outputStream = serialPort.getOutputStream();
+        outputStream.write(msg.getBytes());
+        outputStream.flush();
+        outputStream.close();
 
-        String ret = serialPort.read(1024);
-        if (ret != null) {
-            setText(ret);
-            Log.i("返回结果", "test: " + ret);
-        } else {
-            Log.i("返回结果", "返回结果为空");
-        }
+        InputStream inputStream = serialPort.getInputStream();
+        byte[] buffer = new byte[1024];
+        int len = inputStream.read(buffer);
+        inputStream.close();
+        String result = new String(buffer, 0, len);
+        setText(result);
         serialPort.close();
     }
 
@@ -91,7 +92,15 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 取水污染实时数据
      */
-    private void getData(DeviceInstallInfo device) {
-        HJ212CP result = HJ212.device(device).body(ST._32.getCode(), CN._2011.getCode(), "", "").request();
+    private void testHJ212(DeviceInstallInfo device) {
+        HJ212CP result = Protocol.hj212(device, "32", "2011", "123456", "");
+        List<HJ212Data> datas = result.datas;
+        for (HJ212Data data : datas) {
+            String xxx_rtd = data.xxx_Rtd;
+        }
+    }
+
+    private void test882(DeviceInstallInfo device) {
+        Protocol.read882(device, Command.AD_READ, 1, 8);
     }
 }

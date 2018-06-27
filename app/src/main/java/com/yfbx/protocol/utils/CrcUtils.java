@@ -27,7 +27,7 @@ public class CrcUtils {
                 }
             }
         }
-        return new BigInteger(1, HexUtils.intToByteArray(crcReg)).toString(16).toUpperCase();
+        return new BigInteger(1, HexUtils.intToByte(crcReg)).toString(16).toUpperCase();
     }
 
     private static int i8Tou8(byte in) {

@@ -1,7 +1,9 @@
-package com.yfbx.protocol.hj212;
+package com.yfbx.protocol.protocol.hj212;
 
-import com.yfbx.protocol.hj212.code.HJ212ExeRtn;
-import com.yfbx.protocol.hj212.code.HJ212QnRtn;
+import android.text.TextUtils;
+
+import com.yfbx.protocol.protocol.hj212.code.HJ212ExeRtn;
+import com.yfbx.protocol.protocol.hj212.code.HJ212QnRtn;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +35,7 @@ public class HJ212CP {
     public String Stime;//出样时间
     public String InfoId;//现场端信息编码
 
-    private List<HJ212Data> datas = new ArrayList<>();
+    public List<HJ212Data> datas = new ArrayList<>();
 
     public static HJ212CP parse(String cpString) {
         HJ212CP cp = new HJ212CP();
@@ -80,6 +82,77 @@ public class HJ212CP {
             }
         }
         return cp;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        if (!TextUtils.isEmpty(SystemTime)) {
+            sb.append("SystemTime=").append(SystemTime).append(";");
+        }
+        if (QnRtn != null) {
+            sb.append("QnRtn=").append(QnRtn.getCode()).append(";");
+        }
+        if (ExeRtn != null) {
+            sb.append("ExeRtn=").append(ExeRtn.getCode()).append(";");
+        }
+        if (!TextUtils.isEmpty(RtdInterval)) {
+            sb.append("RtdInterval=").append(RtdInterval).append(";");
+        }
+        if (!TextUtils.isEmpty(MinInterval)) {
+            sb.append("MinInterval=").append(MinInterval).append(";");
+        }
+        if (!TextUtils.isEmpty(RestartTime)) {
+            sb.append("RestartTime=").append(RestartTime).append(";");
+        }
+        if (!TextUtils.isEmpty(PolId)) {
+            sb.append("PolId=").append(PolId).append(";");
+        }
+        if (!TextUtils.isEmpty(BeginTime)) {
+            sb.append("BeginTime=").append(BeginTime).append(";");
+        }
+        if (!TextUtils.isEmpty(EndTime)) {
+            sb.append("EndTime=").append(EndTime).append(";");
+        }
+        if (!TextUtils.isEmpty(DataTime)) {
+            sb.append("DataTime=").append(DataTime).append(";");
+        }
+        if (!TextUtils.isEmpty(NewPW)) {
+            sb.append("NewPW=").append(NewPW).append(";");
+        }
+        if (!TextUtils.isEmpty(OverTime)) {
+            sb.append("OverTime=").append(OverTime).append(";");
+        }
+        if (!TextUtils.isEmpty(ReCount)) {
+            sb.append("ReCount=").append(ReCount).append(";");
+        }
+        if (!TextUtils.isEmpty(VaseNo)) {
+            sb.append("VaseNo=").append(VaseNo).append(";");
+        }
+        if (!TextUtils.isEmpty(CstartTime)) {
+            sb.append("CstartTime=").append(CstartTime).append(";");
+        }
+        if (!TextUtils.isEmpty(Ctime)) {
+            sb.append("Ctime=").append(Ctime).append(";");
+        }
+        if (!TextUtils.isEmpty(Stime)) {
+            sb.append("Stime=").append(Stime).append(";");
+        }
+        if (!TextUtils.isEmpty(InfoId)) {
+            sb.append("InfoId=").append(InfoId).append(";");
+        }
+        if (!datas.isEmpty()) {
+            for (HJ212Data d : datas) {
+                String ds = d.toString();
+                if (!TextUtils.isEmpty(ds)) {
+                    sb.append(ds).append(";");
+                }
+            }
+        }
+        if (sb.length() > 0) {
+            return sb.substring(0, sb.length() - 1);
+        }
+        return "";
     }
 
 }

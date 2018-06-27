@@ -1,8 +1,8 @@
 package com.yfbx.protocol;
 
-import org.junit.Test;
+import com.yfbx.protocol.utils.HexUtils;
 
-import static org.junit.Assert.*;
+import org.junit.Test;
 
 /**
  * Example local unit test, which will execute on the development machine (host).
@@ -12,6 +12,9 @@ import static org.junit.Assert.*;
 public class ExampleUnitTest {
     @Test
     public void addition_isCorrect() throws Exception {
-        assertEquals(4, 2 + 2);
+        byte[] bytes = HexUtils.hexToByte("13");
+        String s = HexUtils.bytes2BinaryStr(bytes);
+        System.out.println(s);
+
     }
 }

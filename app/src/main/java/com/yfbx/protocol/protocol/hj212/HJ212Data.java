@@ -1,8 +1,8 @@
-package com.yfbx.protocol.hj212;
+package com.yfbx.protocol.protocol.hj212;
 
 import android.text.TextUtils;
 
-import com.yfbx.protocol.hj212.code.HJ212Flag;
+import com.yfbx.protocol.protocol.hj212.code.HJ212Flag;
 
 /**
  * Author:Edward
@@ -155,5 +155,81 @@ public class HJ212Data {
             }
         }
         return data;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        if (!TextUtils.isEmpty(xxx_SampleTime)) {
+            sb.append(xxx).append("-SampleTime=").append(xxx_SampleTime).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_Rtd)) {
+            sb.append(xxx).append("-Rtd=").append(xxx_Rtd).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_fsRtd)) {
+            sb.append(xxx).append("-fsRtd=").append(xxx_fsRtd).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_ID)) {
+            sb.append(xxx).append("-ID=").append(xxx_ID).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_Min)) {
+            sb.append(xxx).append("-Min=").append(xxx_Min).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_Avg)) {
+            sb.append(xxx).append("-Avg=").append(xxx_Avg).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_Max)) {
+            sb.append(xxx).append("-Max=").append(xxx_Max).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_ZsRtd)) {
+            sb.append(xxx).append("-ZsRtd=").append(xxx_ZsRtd).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_ZsMin)) {
+            sb.append(xxx).append("-ZsMin=").append(xxx_ZsMin).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_ZsAvg)) {
+            sb.append(xxx).append("-ZsAvg=").append(xxx_ZsAvg).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_ZsMax)) {
+            sb.append(xxx).append("-ZsMax=").append(xxx_ZsMax).append(",");
+        }
+        if (xxx_Flag != null) {
+            sb.append(xxx).append("-Flag=").append(xxx_Flag.toString()).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_EFlag)) {
+            sb.append(xxx).append("-EFlag=").append(xxx_EFlag).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_Cou)) {
+            sb.append(xxx).append("-Cou=").append(xxx_Cou).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_Tol)) {
+            sb.append(xxx).append("-Tol=").append(xxx_Tol).append(",");
+        }
+        if (!TextUtils.isEmpty(SBxxx_RS)) {
+            sb.append(xxx).append("-RS=").append(SBxxx_RS).append(",");
+        }
+        if (!TextUtils.isEmpty(SBxxx_RT)) {
+            sb.append(xxx).append("-RT=").append(SBxxx_RT).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_Data)) {
+            sb.append(xxx).append("-Data=").append(xxx_Data).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_DayData)) {
+            sb.append(xxx).append("-DayData=").append(xxx_DayData).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_NightData)) {
+            sb.append(xxx).append("-NightData=").append(xxx_NightData).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_Info)) {
+            sb.append(xxx).append("-Info=").append(xxx_Info).append(",");
+        }
+        if (!TextUtils.isEmpty(xxx_SN)) {
+            sb.append(xxx).append("-SN=").append(xxx_SN).append(",");
+        }
+
+        if (sb.length() > 0) {
+            return sb.substring(0, sb.length() - 1);
+        }
+        return "";
     }
 }

@@ -1,4 +1,4 @@
-package com.yfbx.protocol.hj212;
+package com.yfbx.protocol.protocol.hj212;
 
 import android.text.TextUtils;
 
@@ -34,6 +34,19 @@ public class HJ212Body {
         this.MN = MN;
         this.Flag = "5";
         this.CP = CP;
+    }
+
+    /**
+     * 取数据时，发送的命令CP大多为空
+     */
+    public HJ212Body(String ST, String CN, String PW, String MN) {
+        this.QN = getTimeMillis();
+        this.ST = ST;
+        this.CN = CN;
+        this.PW = PW;
+        this.MN = MN;
+        this.Flag = "5";
+        setCP("");
     }
 
 

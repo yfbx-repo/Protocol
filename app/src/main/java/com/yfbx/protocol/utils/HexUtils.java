@@ -6,83 +6,83 @@ package com.yfbx.protocol.utils;
  *         功能描述:
  */
 public class HexUtils {
+
+    private static String hexStr = "0123456789ABCDEF";
+    private static String[] binaryArray =
+            {"0000", "0001", "0010", "0011",
+                    "0100", "0101", "0110", "0111",
+                    "1000", "1001", "1010", "1011",
+                    "1100", "1101", "1110", "1111"};
+
     /**
-     * String转byte[]
-     *
-     * @param src 待转换字符
-     * @return 转换后byte[]
+     * 转换为二进制字符串
      */
-    public static byte[] hexString2Bytes(String src) {
-        byte[] ret = new byte[src.length() / 2];
-        byte[] tmp = src.getBytes();
-        for (int i = 0; i < src.length() / 2; i++) {
-            ret[i] = uniteBytes(tmp[i * 2], tmp[i * 2 + 1]);
+    public static String bytesToBinaryStr(byte[] bArray) {
+        String outStr = "";
+        int pos = 0;
+        for (byte b : bArray) {
+            //高四位
+            pos = (b & 0xF0) >> 4;
+            outStr += binaryArray[pos];
+            //低四位
+            pos = b & 0x0F;
+            outStr += binaryArray[pos];
         }
-        return ret;
+        return outStr;
     }
 
     /**
-     * 将两个ASCII字符合成一个字节； 如："EF"--> 0xEF
-     *
-     * @param src0 byte
-     * @param src1 byte
-     * @return byte
+     * 十六进制字符串转换为二进制字符串
+     * eg.0013-->00010011
      */
-    private static byte uniteBytes(byte src0, byte src1) {
-        try {
-            byte b0 = Byte.decode("0x" + new String(new byte[]{src0}));
-            b0 = (byte) (b0 << 4);
-            byte b1 = Byte.decode("0x" + new String(new byte[]{src1}));
-            return (byte) (b0 ^ b1);
-        } catch (Exception e) {
-            return 0;
-        }
+    public static String hexStrToBinaryStr(String hex) {
+        return bytesToBinaryStr(hexToByte(hex));
     }
 
     /**
-     * byte数组转换成String
-     *
-     * @param src 数组
-     * @return string
+     * 十六进制转换为二进制字节数组
      */
-    public static String bytesToHexString(byte[] src) {
-        StringBuilder stringBuilder = new StringBuilder("");
-        if (src == null || src.length <= 0) {
-            return null;
+    public static byte[] hexToByte(String hexString) {
+        //hexString的长度对2取整，作为bytes的长度
+        int len = hexString.length() / 2;
+        byte[] bytes = new byte[len];
+        byte high = 0;//字节高四位
+        byte low = 0;//字节低四位
+        for (int i = 0; i < len; i++) {
+            //右移四位得到高位
+            high = (byte) ((hexStr.indexOf(hexString.charAt(2 * i))) << 4);
+            low = (byte) hexStr.indexOf(hexString.charAt(2 * i + 1));
+            bytes[i] = (byte) (high | low);//高地位做或运算
         }
-        for (byte aSrc : src) {
-            int v = aSrc >= 0 ? aSrc : aSrc + 256;
-            String hv = Integer.toHexString(v);
-            if (hv.length() < 2) {
-                stringBuilder.append(0);
-            }
-            stringBuilder.append(hv).append("");
+        return bytes;
+    }
+
+    /**
+     * 二进制数组转换为十六进制字符串
+     */
+    public static String byteToHex(byte[] bytes, int len) {
+
+        String result = "";
+        String hex = "";
+        for (int i = 0; i < len; i++) {
+            //字节高4位
+            hex = String.valueOf(hexStr.charAt((bytes[i] & 0xF0) >> 4));
+            //字节低4位
+            hex += String.valueOf(hexStr.charAt(bytes[i] & 0x0F));
+            result += hex;  //+" "
         }
-        return stringBuilder.toString().toUpperCase();
+        return result;
     }
 
     /**
      * int 转byte[]
-     *
-     * @param intValue int
-     * @return byte[]
      */
-    public static byte[] intToByteArray(int intValue) {
+    public static byte[] intToByte(int intValue) {
         return new byte[]{
                 (byte) ((intValue >> 24) & 0xFF),
                 (byte) ((intValue >> 16) & 0xFF),
                 (byte) ((intValue >> 8) & 0xFF),
                 (byte) (intValue & 0xFF)
         };
-    }
-
-
-    public static String stringToHex(String str) {
-        char[] chars = str.toCharArray();
-        StringBuffer hex = new StringBuffer();
-        for (int i = 0; i < chars.length; i++) {
-            hex.append(Integer.toHexString((int) chars[i]));
-        }
-        return hex.toString();
     }
 }
