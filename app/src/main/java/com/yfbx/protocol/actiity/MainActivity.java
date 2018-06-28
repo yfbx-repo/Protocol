@@ -1,7 +1,6 @@
 package com.yfbx.protocol.actiity;
 
 import android.os.Bundle;
-import android.serialport.SerialPort;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
@@ -10,19 +9,18 @@ import android.widget.TextView;
 import com.yfbx.protocol.R;
 import com.yfbx.protocol.bean.DeviceInstallInfo;
 import com.yfbx.protocol.protocol.Protocol;
+import com.yfbx.protocol.protocol.SerialManager;
 import com.yfbx.protocol.protocol.hj212.HJ212CP;
 import com.yfbx.protocol.protocol.hj212.HJ212Data;
 import com.yfbx.protocol.protocol.modbus882.Command;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    private static final String TAG = "协议测试";
+    DeviceInstallInfo device;
     EditText editText;
     TextView retTxt;
 
@@ -30,10 +28,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         editText = findViewById(R.id.edit_txt);
         retTxt = findViewById(R.id.ret_txt);
-
+        attachDevice();
 
         findViewById(R.id.send_btn).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,6 +38,15 @@ public class MainActivity extends AppCompatActivity {
                 execute(editText.getText().toString());
             }
         });
+    }
+
+    /**
+     * 设备信息
+     */
+    private void attachDevice() {
+        device = new DeviceInstallInfo();
+        device.setComNum("/dev/ttyS4");
+        device.setBaudRate(9600);
     }
 
     /**
@@ -64,17 +70,9 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void test(String msg) throws IOException, InterruptedException {
-        SerialPort serialPort = new SerialPort(new File("/dev/ttyS4"), 9600, 0);
-        OutputStream outputStream = serialPort.getOutputStream();
-        outputStream.write(msg.getBytes());
-        outputStream.flush();
-        outputStream.close();
-
-        InputStream inputStream = serialPort.getInputStream();
-        byte[] buffer = new byte[1024];
-        int len = inputStream.read(buffer);
-        inputStream.close();
-        String result = new String(buffer, 0, len);
+        SerialManager serialPort = new SerialManager(device);
+        serialPort.sendCommand(msg.getBytes());
+        String result = serialPort.readString();
         setText(result);
         serialPort.close();
     }
@@ -84,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void run() {
                 retTxt.append(ret);
-                retTxt.append("\r\n");
+                retTxt.append("\n");
             }
         });
     }
@@ -92,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
     /**
      * 取水污染实时数据
      */
-    private void testHJ212(DeviceInstallInfo device) {
+    private void testHJ212() {
         HJ212CP result = Protocol.hj212(device, "32", "2011", "123456", "");
         List<HJ212Data> datas = result.datas;
         for (HJ212Data data : datas) {
@@ -100,7 +98,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void test882(DeviceInstallInfo device) {
-        Protocol.read882(device, Command.AD_READ, 1, 8);
+    /**
+     * 882协议测试
+     */
+    private void test882() {
+        int[] ints = Protocol.read882(device, Command.AD_READ, 1, 8);
     }
 }
