@@ -27,36 +27,14 @@ public class HJ212Body {
     public HJ212Body() {
     }
 
-    public HJ212Body(String ST, String CN, String PW, String MN, int Flag) {
+    public HJ212Body(String ST, String CN, String PW, String MN, int Flag, String CP) {
         this.QN = getTimeMillis();
         this.ST = ST;
         this.CN = CN;
         this.PW = PW;
         this.MN = MN;
         this.Flag = Flag;
-    }
-
-    public HJ212Body(String ST, String CN, String PW, String MN, String CP) {
-        this.QN = getTimeMillis();
-        this.ST = ST;
-        this.CN = CN;
-        this.PW = PW;
-        this.MN = MN;
-        this.Flag = 5;
         this.CP = CP;
-    }
-
-    /**
-     * 取数据时，发送的命令CP大多为空
-     */
-    public HJ212Body(String ST, String CN, String PW, String MN) {
-        this.QN = getTimeMillis();
-        this.ST = ST;
-        this.CN = CN;
-        this.PW = PW;
-        this.MN = MN;
-        this.Flag = 5;
-        setCP("");
     }
 
 
@@ -152,7 +130,7 @@ public class HJ212Body {
         if (!TextUtils.isEmpty(PNO)) {
             builder.append("PNO=").append(PNO).append(";");
         }
-        builder.append("CP=").append(CP);
+        builder.append("CP=").append("&&").append(CP == null ? "" : CP).append("&&");
         return builder.toString();
     }
 }

@@ -1,10 +1,7 @@
 package com.yfbx.hj212;
 
 
-import android.support.annotation.Nullable;
-
 import com.yfbx.hj212.hj212.HJ212Body;
-import com.yfbx.hj212.hj212.HJ212CP;
 
 /**
  * Author:Edward
@@ -16,14 +13,9 @@ class Packer {
 
     private HJ212Body body;
 
-    Packer(String ST, String CN, String PW, String MN, int Flag) {
-        body = new HJ212Body(ST, CN, PW, MN, Flag);
+    Packer(String ST, String CN, String PW, String MN, int Flag, String CP) {
+        body = new HJ212Body(ST, CN, PW, MN, Flag, CP);
     }
-
-    void setCP(@Nullable HJ212CP cp) {
-        body.setCP(cp == null ? "" : cp.toString());
-    }
-
 
     String pack() {
         String bodyStr = body.toString();

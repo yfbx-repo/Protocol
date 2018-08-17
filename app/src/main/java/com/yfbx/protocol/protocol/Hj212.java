@@ -22,7 +22,7 @@ public class Hj212 implements Protocol {
         P212 p = params.getP212();
 
         HJ212 hj212 = new HJ212();
-        byte[] pack = hj212.pack(p.ST, p.CN, p.PW, p.MN, p.Flag, p.cp);
+        byte[] pack = hj212.pack(p.ST, p.CN, p.PW, p.MN, p.Flag, p.CP);
         SerialManager serial = SerialManager.getInstance();
         serial.open(device.dev, device.baudRate);
         serial.write(pack);

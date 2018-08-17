@@ -15,7 +15,7 @@ public class P212 {
     public String PW;
     public String MN;
     public int Flag;
-    public HJ212CP cp;
+    public String CP;
 
 
 }

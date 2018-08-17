@@ -17,9 +17,8 @@ public class HJ212 {
     private static final String TAG = "HJ212";
 
 
-    public byte[] pack(String ST, String CN, String PW, String MN, int Flag, HJ212CP cp) {
-        Packer packer = new Packer(ST, CN, PW, MN, Flag);
-        packer.setCP(cp);
+    public byte[] pack(String ST, String CN, String PW, String MN, int Flag, String CP) {
+        Packer packer = new Packer(ST, CN, PW, MN, Flag, CP);
         String pack = packer.pack();
         Log.i(TAG, "发送报文:" + pack);
         return pack.getBytes();
