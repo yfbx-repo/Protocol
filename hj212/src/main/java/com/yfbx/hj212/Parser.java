@@ -52,7 +52,7 @@ class Parser {
             if (s.startsWith("PNO")) {
                 data.setPNO(s.substring(5));
             }
-            if (s.startsWith("HJ212CP")) {
+            if (s.startsWith("CP")) {
                 data.setCP(s.substring(4));
             }
         }

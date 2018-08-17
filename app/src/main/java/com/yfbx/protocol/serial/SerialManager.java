@@ -1,4 +1,4 @@
-package com.yfbx.protocol;
+package com.yfbx.protocol.serial;
 
 import com.deemons.serialportlib.SerialPort;
 
