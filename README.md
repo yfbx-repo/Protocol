@@ -2,7 +2,7 @@
 
 This project now contains protocol HJ/T212  and Modbus882.
 
-This is jsut a rough version and some bugs need to be fixed!
+This is just a rough version and some bugs need to be fixed!
 
 
 ```
